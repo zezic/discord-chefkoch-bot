@@ -1,10 +1,6 @@
 var Discord = require('discord.js')
 var mybot = new Discord.Client()
-const path = require('path')
-var _ = require('lodash')
 const bwpresets = require('./bwpresets.js')
-
-require('dotenv').config({ path: path.join(__dirname, '/.env') })
 
 // get all channels
 mybot.on('ready', function (data) {

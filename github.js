@@ -1,6 +1,4 @@
 var Request = require('request')
-const path = require('path')
-require('dotenv').config({ path: path.join(__dirname, '/.env') })
 
 const username = process.env.git_username
 const password = process.env.git_password

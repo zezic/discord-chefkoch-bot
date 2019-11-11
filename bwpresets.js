@@ -3,7 +3,6 @@ const fs = require('fs')
 const path = require('path')
 var _ = require('lodash')
 const commitGit = require('./github')
-require('dotenv').config({ path: path.join(__dirname, '/.env') })
 
 const messageThxTxt = 'thanks for your submission, preset is downloaded and will be available on git here: https://github.com/polarity/bitwig-community-presets'
 const messageWarnTxt = 'Hey please upload only .bwpreset files to this channel. 🔥 The messages will be deleted in 20 secs 🔥'
