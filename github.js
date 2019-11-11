@@ -26,7 +26,7 @@ module.exports = (filename, commitmsg, filecontent) => {
   options.body.content = filecontent
   Request(options, (err, res, body) => {
     if (!err) {
-      console.log(body.content)
+      console.log('added: ', body.content.name)
     }
   })
 }
