@@ -19,6 +19,6 @@ mybot.on('message', function (message) {
   }
 })
 
-mybot.login(process.env.api_discord_token, function (err, token) {
+mybot.login(process.env.API_DISCORD_TOKEN, function (err, token) {
   console.log(err, token)
 })

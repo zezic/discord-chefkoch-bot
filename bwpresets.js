@@ -38,7 +38,7 @@ module.exports = (message) => {
         })
 
         // should we download the file locally?
-        if (process.env.download) {
+        if (process.env.DOWNLOAD) {
           // download to disk
           download(attachment.url, path.join(downloadPath, attachment.filename))
         }
