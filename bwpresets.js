@@ -5,8 +5,8 @@ var _ = require('lodash')
 const commitGit = require('./github')
 
 const messageThxTxt = 'thanks for your submission, preset is downloaded and will be available on git here: https://github.com/polarity/bitwig-community-presets'
-const messageWarnTxt = 'Hey please upload only .bwpreset files to this channel. 🔥 The messages will be deleted in 20 secs 🔥'
-const messageNoAttTxt = 'Hey please upload .bwpreset files to this channel. If you want to upload videos, or zip files the use the #💾-resources channel! 🔥 The messages will be deleted in 20 secs 🔥'
+const messageWarnTxt = 'Hey, please upload .bwpreset only files to this channel. 🔥 The messages will be deleted in 20 secs 🔥'
+const messageNoAttTxt = 'Hey, please upload .bwpreset files to this channel. If you want to upload videos, or zip files, use the #💾-resources channel! 🔥 The messages will be deleted in 20 secs 🔥'
 const timeoutMessages = 20000
 
 const download = (url, dest, cb) => {
