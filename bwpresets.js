@@ -19,13 +19,6 @@ module.exports = (message) => {
     message.attachments.tap(attachment => {
       // has the file a bwpreset in the filename?
       if (attachment.filename.match(/\.bwpreset/i)) {
-        // all presets go into a username sub directory
-        const downloadPath = path.join(__dirname, './downloads/', message.author.id, '/')
-        // create the dir when no available
-        if (!fs.existsSync(downloadPath)) {
-          fs.mkdirSync(downloadPath)
-        }
-
         // get file and send it to the repo
         Request.get({ encoding: null, url: attachment.url }, (error, response, body) => {
           if (!error) {
@@ -38,7 +31,13 @@ module.exports = (message) => {
         })
 
         // should we download the file locally?
-        if (process.env.DOWNLOAD) {
+        if (process.env.DOWNLOAD && process.env.DOWNLOAD === 'true') {
+          // all presets go into a username sub directory
+          const downloadPath = path.join(__dirname, './downloads/', message.author.id, '/')
+          // create the dir when no available
+          if (!fs.existsSync(downloadPath)) {
+            fs.mkdirSync(downloadPath)
+          }
           // download to disk
           download(attachment.url, path.join(downloadPath, attachment.filename))
         }
