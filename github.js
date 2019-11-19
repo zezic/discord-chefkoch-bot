@@ -1,4 +1,5 @@
-var Request = require('request')
+const Request = require('request')
+const _ = require('lodash')
 
 const username = process.env.GIT_USERNAME
 const password = process.env.GIT_PASSWORD
@@ -26,7 +27,7 @@ module.exports = (filename, commitmsg, filecontent) => {
   options.body.content = filecontent
   Request(options, (err, res, body) => {
     if (!err) {
-      console.log('added: ', body.content.name)
+      console.log('added: ', _.get(body, 'content.name', '??? not defined name'))
     }
   })
 }
