@@ -2,7 +2,7 @@ const Request = require('request')
 const _ = require('lodash')
 
 const username = process.env.GIT_USERNAME
-const password = process.env.GIT_PASSWORD
+const password = process.env.GIT_ACCESSTOKEN
 
 const options = {
   method: 'PUT',
