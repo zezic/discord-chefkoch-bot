@@ -6,7 +6,7 @@ const password = process.env.GIT_ACCESSTOKEN
 
 const options = {
   method: 'PUT',
-  url: `https://${username}:${password}@api.github.com/repos/polarity/bitwig-community-presets/contents/discord-presets`,
+  url: `https://${username}:${password}@api.github.com/repos/polarity/bitwig-community-presets/contents`,
   headers: {
     'User-Agent': 'request'
   },
