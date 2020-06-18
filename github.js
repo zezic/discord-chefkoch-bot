@@ -4,27 +4,25 @@ const _ = require('lodash')
 const username = process.env.GIT_USERNAME
 const password = process.env.GIT_ACCESSTOKEN
 
-const options = {
+const makeOptions = (filename, commitmsg, filecontent) => ({
   method: 'PUT',
-  url: `https://${username}:${password}@api.github.com/repos/polarity/`,
+  url: `https://${username}:${password}@api.github.com/repos/polarity/${filename}`,
   headers: {
     'User-Agent': 'request'
   },
   json: true,
   body: {
-    message: 'something is comitted',
+    message: commitmsg || 'something is comitted',
     committer: {
       name: process.env.GIT_USERNICK,
       email: process.env.GIT_USERMAIL
     },
-    content: 'bXkgbmV3IGZpbGUgY29udGVudHM='
+    content: filecontent || 'bXkgbmV3IGZpbGUgY29udGVudHM='
   }
-}
+})
 
 module.exports = (filename, commitmsg, filecontent) => {
-  options.url = options.url + filename
-  options.body.message = commitmsg
-  options.body.content = filecontent
+  const options = makeOptions(filename, commitmsg, filecontent)
   Request(options, (err, res, body) => {
     if (!err) {
       console.log('added: ', _.get(body, 'content.name', '??? not defined name'))
