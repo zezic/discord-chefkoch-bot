@@ -24,7 +24,6 @@ module.exports = (message) => {
           if (!error) {
             const buffer = Buffer.from(body, 'binary').toString('base64')
             // const data = 'data:' + response.headers['content-type'] + ';base64,' + buffer
-            console.log(_.get(buffer, 'name', 'somethings wrong with the buffer'))
             commitGit('bitwig-community-presets/contents/discord-clips/' + message.author.id + '/' + attachment.filename, message.content, buffer)
           } else {
             console.log('error requesting the file: ', error)
