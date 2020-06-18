@@ -22,7 +22,7 @@ module.exports = (message) => {
         // get file and send it to the repo
         Request.get({ encoding: null, url: attachment.url }, (error, response, body) => {
           if (!error) {
-            const buffer = Buffer.from(body).toString('base64')
+            const buffer = Buffer.from(body, 'binary').toString('base64')
             // const data = 'data:' + response.headers['content-type'] + ';base64,' + buffer
             commitGit('bitwig-community-presets/contents/discord-presets/' + message.author.id + '/' + attachment.filename, message.content, buffer)
           } else {
