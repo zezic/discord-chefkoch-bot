@@ -6,7 +6,7 @@ const password = process.env.GIT_ACCESSTOKEN
 
 const options = {
   method: 'PUT',
-  url: `https://${username}:${password}@api.github.com/repos/polarity/bitwig-community-presets/contents`,
+  url: `https://${username}:${password}@api.github.com/repos/polarity/`,
   headers: {
     'User-Agent': 'request'
   },
@@ -22,7 +22,7 @@ const options = {
 }
 
 module.exports = (filename, commitmsg, filecontent) => {
-  options.url = options.url + '/' + filename
+  options.url = options.url + filename
   options.body.message = commitmsg
   options.body.content = filecontent
   Request(options, (err, res, body) => {
