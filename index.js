@@ -1,6 +1,7 @@
 var Discord = require('discord.js')
 var mybot = new Discord.Client()
 const bwpresets = require('./bwpresets.js')
+const bwclips = require('./bwclips.js')
 
 // get all channels
 mybot.on('ready', function (data) {
@@ -14,8 +15,11 @@ mybot.on('message', function (message) {
   if (message.channel.name === 'your-presets' && message.author.username !== 'Chefkoch') {
     bwpresets(message)
   }
+  if (message.channel.name === 'your-clips' && message.author.username !== 'Chefkoch') {
+    bwclips(message)
+  }
   if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch') {
-    bwpresets(message)
+    bwclips(message)
   }
 })
 
