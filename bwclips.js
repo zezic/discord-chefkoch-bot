@@ -5,8 +5,8 @@ var _ = require('lodash')
 const commitGit = require('./github')
 
 const messageThxTxt = 'thanks for your submission, the clip is downloaded and will be available on git here: https://github.com/polarity/bitwig-community-presets'
-const messageWarnTxt = 'Hey, please upload .bwclip only files to this channel. 🔥 The messages will be deleted in 20 secs 🔥'
-const messageNoAttTxt = 'Hey, please upload .bwclip files to this channel. If you want to upload videos, or zip files, use the #💾-resources channel! 🔥 The messages will be deleted in 20 secs 🔥'
+const messageWarnTxt = 'Hey, please upload *.bwclip or *.bwscene only files to this channel. 🔥 The messages will be deleted in 20 secs 🔥'
+const messageNoAttTxt = 'Hey, please upload *.bwclip or *.bwscene files to this channel. If you want to upload videos, or zip files, use the #💾-resources channel! 🔥 The messages will be deleted in 20 secs 🔥'
 const timeoutMessages = 20000
 
 const download = (url, dest, cb) => {
@@ -18,7 +18,7 @@ module.exports = (message) => {
   if (message.attachments && _.size(message.attachments) > 0) {
     message.attachments.tap(attachment => {
       // has the file a bwpreset in the filename?
-      if (attachment.filename.match(/\.bwclip/i)) {
+      if (attachment.filename.match(/\.bwclip/i) || attachment.filename.match(/\.bwscene/i)) {
         // get file and send it to the repo
         Request.get({ encoding: null, url: attachment.url }, (error, response, body) => {
           if (!error) {
