@@ -63,11 +63,27 @@ const storeImage = async (id, username, avatarURL) => {
 
       await res.body.pipe(writeStream)
     }
-    const urlFile = filename.replace('/', '%2F')
+    const urlFile = encodeRFC5987ValueChars(filename)
     const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${urlFile}?alt=media&token=${uuid}`
     return fileUrl
   } else {
     return ''
   }
+}
+
+/**
+ * encode url strings and replace chars
+ * @param {url} str
+ */
+const encodeRFC5987ValueChars = (str) => {
+  return encodeURIComponent(str)
+    // Beachte, dass obwohl RFC3986 "!" reserviert, es nicht kodiert
+    // werden muss, weil RFC5987 es nicht reserviert.
+    .replace(/['()]/g, escape) // i.e., %27 %28 %29
+    .replace(/\*/g, '%2A')
+    // Die folgenden Zeichen müssen nicht nach RFC5987 kodiert werden,
+    // daher können wir bessere Lesbarkeit übers Netzwerk sicherstellen:
+    // |`^
+    .replace(/%(?:7C|60|5E)/g, unescape)
 }
 module.exports = { save, storeImage }
