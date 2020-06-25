@@ -3,6 +3,7 @@ var mybot = new Discord.Client()
 const bwpresets = require('./bwpresets.js')
 const bwclips = require('./bwclips.js')
 const bangBwp = require('./bang-bwp.js')
+var _ = require('lodash')
 
 // get all channels
 mybot.on('ready', function (data) {
