@@ -4,9 +4,12 @@ const path = require('path')
 var _ = require('lodash')
 const commitGit = require('./github')
 
-const messageThxTxt = 'thanks for your submission, preset is downloaded and will be available on git here: https://github.com/polarity/bitwig-community-presets'
-const messageWarnTxt = 'Hey, please upload .bwpreset only files to this channel. 🔥 The messages will be deleted in 20 secs 🔥'
-const messageNoAttTxt = 'Hey, please upload .bwpreset files to this channel. If you want to upload videos, or zip files, use the #💾-resources channel! 🔥 The messages will be deleted in 20 secs 🔥'
+const saveToFirebase = require('./firebase').save
+const storeImage = require('./firebase').storeImage
+
+const messageThxTxt = 'Thanks for your submission 🎉🎉, preset is downloaded and will be available on git here: https://github.com/polarity/bitwig-community-presets also listed soon on https://bitwig.community/presets'
+const messageWarnTxt = 'Hey, please upload only .bwpreset files to this channel. Dont forget to add a nice description! 🔥 The messages will be deleted in 20 secs 🔥'
+const messageNoAttTxt = 'Hey, please upload only .bwpreset files to this channel. Dont forget to add a nice description! If you want to upload videos, or zip files, use the #💾-resources channel! 🔥 The messages will be deleted in 20 secs 🔥'
 const timeoutMessages = 20000
 
 const download = (url, dest, cb) => {
@@ -20,11 +23,35 @@ module.exports = (message) => {
       // has the file a bwpreset in the filename?
       if (attachment.filename.match(/\.bwpreset/i)) {
         // get file and send it to the repo
-        Request.get({ encoding: null, url: attachment.url }, (error, response, body) => {
+        Request.get({ encoding: null, url: attachment.url }, async (error, response, body) => {
           if (!error) {
             const buffer = Buffer.from(body, 'binary').toString('base64')
+
             // const data = 'data:' + response.headers['content-type'] + ';base64,' + buffer
             commitGit('bitwig-community-presets/contents/discord-presets/' + message.author.id + '/' + attachment.filename, message.content, buffer)
+
+            // get the discord avatar url
+            const imageURL = message.author.avatarURL
+
+            // download the discord avatar and add it to the firestore, return the new firestor url
+            const imageFirebaseURL = await storeImage(message.author.id, message.author.username, imageURL)
+
+            // construct data
+            const doc = {
+              added: new Date().toISOString(),
+              desc: message.content,
+              download: 'https://github.com/polarity/bitwig-community-presets/raw/master/discord-presets/' + message.author.id + '/' + attachment.filename,
+              name: attachment.filename,
+              type: 'bwpreset',
+              user: {
+                firebaseUrl: imageFirebaseURL,
+                avatarURL: imageURL || '',
+                id: message.author.id,
+                username: message.author.username
+              }
+            }
+            // save a new entry to the firebase
+            saveToFirebase(doc)
           } else {
             console.log('error requesting the file: ', error)
           }

@@ -19,7 +19,7 @@ mybot.on('message', function (message) {
     bwclips(message)
   }
   if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch') {
-    bwclips(message)
+    bwpresets(message)
   }
 })
 
