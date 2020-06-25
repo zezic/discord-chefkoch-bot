@@ -27,7 +27,11 @@ firebase.initializeApp(firebaseConfig)
 
 const save = async (details) => {
   const db = firebase.firestore()
-  await db.collection('presets').doc(details.user.id + '-' + details.name).set(details)
+  await db.collection('presets').doc(details.user.id + '-' + details.name).set(details, { merge: true })
+}
+const load = async (details) => {
+  const db = firebase.firestore()
+  return db.collection('presets').doc(details.user.id + '-' + details.name).get()
 }
 
 const storeImage = async (id, username, avatarURL) => {
@@ -86,4 +90,4 @@ const encodeRFC5987ValueChars = (str) => {
     // |`^
     .replace(/%(?:7C|60|5E)/g, unescape)
 }
-module.exports = { save, storeImage }
+module.exports = { save, load, storeImage }

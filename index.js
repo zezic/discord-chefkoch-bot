@@ -2,6 +2,7 @@ var Discord = require('discord.js')
 var mybot = new Discord.Client()
 const bwpresets = require('./bwpresets.js')
 const bwclips = require('./bwclips.js')
+const bangBwp = require('./bang-bwp.js')
 
 // get all channels
 mybot.on('ready', function (data) {
@@ -11,14 +12,19 @@ mybot.on('ready', function (data) {
 
 // act on message
 mybot.on('message', function (message) {
+  // check for bangs in your presets channel
+  if (message.channel.name === 'your-presets' && message.content.match(/!bwp:([\w-.]*.bwpreset)/i)) {
+    bangBwp(message)
+  }
+
   // console.log(message.guild.name, ' - ', message.author.username, '(', message.channel.name, ')', ': ', message.content)
-  if (message.channel.name === 'your-presets' && message.author.username !== 'Chefkoch') {
+  if (message.channel.name === 'your-presets' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0) {
     bwpresets(message)
   }
-  if (message.channel.name === 'your-clips' && message.author.username !== 'Chefkoch') {
+  if (message.channel.name === 'your-clips' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0) {
     bwclips(message)
   }
-  if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch') {
+  if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0) {
     bwpresets(message)
   }
 })
