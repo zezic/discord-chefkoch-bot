@@ -26,6 +26,8 @@ module.exports = (filename, commitmsg, filecontent) => {
   Request(options, (err, res, body) => {
     if (!err) {
       console.log('added: ', _.get(body, 'content.name', '??? not defined name'))
+    } else {
+      console.log('something went wrong while comitting: ', err)
     }
   })
 }
