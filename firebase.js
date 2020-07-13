@@ -33,7 +33,7 @@ const save = async (details) => {
     const snapshot = await db.collection('profile').where('discordUid', '==', details.user.id).get()
     if (snapshot && snapshot.length && snapshot.length > 0) {
       // add community uid to preset entry
-      details.uid = snapshot[0].data.uid
+      details.uid = snapshot[0].data().uid
     }
   } catch (error) {
     console.log('querying user profile data went wrong: ', error)
