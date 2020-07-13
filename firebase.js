@@ -31,9 +31,11 @@ const save = async (details) => {
   // lookup user for a community uid
   try {
     const snapshot = await db.collection('profile').where('discordUid', '==', details.user.id).get()
-    if (snapshot && snapshot.length && snapshot.length > 0) {
-      // add community uid to preset entry
-      details.uid = snapshot[0].data().uid
+    if (snapshot) {
+      snapshot.forEach((doc) => {
+        // add community uid to preset entry
+        details.uid = doc.data().uid
+      })
     }
   } catch (error) {
     console.log('querying user profile data went wrong: ', error)
