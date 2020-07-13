@@ -27,6 +27,14 @@ firebase.initializeApp(firebaseConfig)
 
 const save = async (details) => {
   const db = firebase.firestore()
+
+  // lookup user for a community uid
+  const snapshot = await db.collection('profile').where('discordUid', '==', details.user.id).get()
+  if (snapshot && snapshot.length && snapshot.length > 0) {
+    // add community uid to preset entry
+    details.uid = snapshot[0].data.uid
+  }
+  // save preset
   await db.collection('presets').doc(details.user.id + '-' + details.name).set(details, { merge: true })
 }
 const load = async (details) => {
