@@ -4,6 +4,7 @@ const bwpresets = require('./bwpresets.js')
 const bwclips = require('./bwclips.js')
 const bangBwp = require('./bang-bwp.js')
 var _ = require('lodash')
+const timeoutMessages = 20000
 
 // get all channels
 mybot.on('ready', function (data) {
@@ -16,6 +17,25 @@ mybot.on('message', function (message) {
   // check for bangs in your presets channel
   if (message.channel.name === 'your-presets' && message.content.match(/!bwp:([\w-.]*.bwpreset)/i)) {
     bangBwp(message)
+  }
+
+  // console.log(message.guild.name, ' - ', message.author.username, '(', message.channel.name, ')', ': ', message.content)
+  if (message.channel.name === 'your-tunes' && message.author.username !== 'Chefkoch' && !message.attachments) {
+    const warnMessage = message.reply('if you want to post feedback, please use #your-tunes-chat')
+    // delete the messages after 20secs
+    setTimeout(() => {
+      warnMessage.then(msg => msg.delete())
+      message.delete().then(msg => console.log('message deleted!'))
+    }, timeoutMessages)
+  }
+
+  if (message.channel.name === 'your-tunes-chat' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0) {
+    const warnMessage = message.reply('if you want to post a track, please use #your-tunes')
+    // delete the messages after 20secs
+    setTimeout(() => {
+      warnMessage.then(msg => msg.delete())
+      message.delete().then(msg => console.log('message deleted!'))
+    }, timeoutMessages)
   }
 
   // console.log(message.guild.name, ' - ', message.author.username, '(', message.channel.name, ')', ': ', message.content)
