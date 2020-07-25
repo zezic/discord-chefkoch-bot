@@ -46,7 +46,7 @@ mybot.on('message', function (message) {
     bwclips(message)
   }
 
-  if (message.channel.name === 'olisar' && message.attachments && _.size(message.attachments) < 1 && !message.content.includes('http')) {
+  if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) < 1 && !message.content.includes('http')) {
     message.reply('if you want to post a track, please use #your-tunes - message will be deleted soon!')
   }
 })
