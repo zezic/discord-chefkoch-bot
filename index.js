@@ -12,6 +12,7 @@ mybot.on('ready', function (data) {
   // channel.sendMessage('Guten Tag!')
 })
 
+// reactions
 mybot.on('messageReactionAdd', (MessageReaction) => {
   if (MessageReaction.message.channel.name === 'olisar') {
     MessageReaction.message.reply(`emoji added ${MessageReaction.emoji.name} - ${MessageReaction.emoji.id} - ${MessageReaction.emoji.identifier}`)
