@@ -20,7 +20,7 @@ mybot.on('message', function (message) {
   }
 
   // console.log(message.guild.name, ' - ', message.author.username, '(', message.channel.name, ')', ': ', message.content)
-  if (message.channel.name === 'your-tunes' && message.author.username !== 'Chefkoch' && !message.attachments) {
+  if (message.channel.name === 'your-tunes' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) < 1) {
     const warnMessage = message.reply('if you want to post feedback, please use #your-tunes-chat')
     // delete the messages after 20secs
     setTimeout(() => {
