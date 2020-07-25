@@ -12,6 +12,13 @@ mybot.on('ready', function (data) {
   // channel.sendMessage('Guten Tag!')
 })
 
+mybot.on('messageReactionAdd', (MessageReaction) => {
+  if (MessageReaction.message.channel.name === 'olisar') {
+    console.log('coool', MessageReaction)
+    MessageReaction.message.reply('coool')
+  }
+})
+
 // act on message
 mybot.on('message', function (message) {
   // check for bangs in your presets channel
