@@ -48,6 +48,9 @@ mybot.on('message', function (message) {
   if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0) {
     bwpresets(message)
   }
+  if (message.channel.name === 'olisar') {
+    console.log(message)
+  }
 })
 
 mybot.login(process.env.API_DISCORD_TOKEN, function (err, token) {
