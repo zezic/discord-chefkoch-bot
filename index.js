@@ -29,7 +29,7 @@ mybot.on('message', function (message) {
     }, timeoutMessages)
   }
 
-  if (message.channel.name === 'your-tunes-chat' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0 && message.content.includes('http')) {
+  if (message.channel.name === 'your-tunes-chat' && message.author.username !== 'Chefkoch' && ((message.attachments && _.size(message.attachments) > 0) || message.content.includes('http'))) {
     const warnMessage = message.reply('if you want to post a track, please use #your-tunes - message will be deleted soon!')
     // delete the messages after 20secs
     setTimeout(() => {
