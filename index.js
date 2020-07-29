@@ -26,7 +26,15 @@ mybot.on('message', function (message) {
     bangBwp(message)
   }
 
-  // console.log(message.guild.name, ' - ', message.author.username, '(', message.channel.name, ')', ': ', message.content)
+  if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch' && message.attachments && (_.size(message.attachments) > 1 || !message.content.includes('http') || !message.content.includes('bandcamp'))) {
+    const warnMessage = message.reply('if you want to post feedback, please use #your-tunes-chat - message will be deleted soon!')
+    // delete the messages after 20secs
+    setTimeout(() => {
+      warnMessage.then(msg => msg.delete())
+      message.delete().then(msg => console.log('message deleted!'))
+    }, timeoutMessages)
+  }
+
   if (message.channel.name === 'your-tunes' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) < 1 && !message.content.includes('http')) {
     const warnMessage = message.reply('if you want to post feedback, please use #your-tunes-chat - message will be deleted soon!')
     // delete the messages after 20secs
@@ -51,10 +59,6 @@ mybot.on('message', function (message) {
   }
   if (message.channel.name === 'your-clips' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0) {
     bwclips(message)
-  }
-
-  if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) < 1 && !message.content.includes('http')) {
-    message.reply('if you want to post a track, please use #your-tunes - message will be deleted soon!')
   }
 })
 
