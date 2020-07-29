@@ -26,8 +26,8 @@ mybot.on('message', function (message) {
     bangBwp(message)
   }
 
-  if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch' && message.attachments && (_.size(message.attachments) > 1 || !message.content.includes('http') || !message.content.includes('bandcamp'))) {
-    const warnMessage = message.reply('if you want to post feedback, please use #your-tunes-chat - message will be deleted soon!')
+  if (message.channel.name === 'your-releases' && message.author.username !== 'Chefkoch' && message.attachments && (_.size(message.attachments) > 1 || !message.content.includes('http') || !message.content.includes('bandcamp'))) {
+    const warnMessage = message.reply('In this channel are only bandcamp links allowed. So post your bandcamp release and if you want to post feedback to other tracks, please use #your-tunes-chat - message will be deleted soon!')
     // delete the messages after 20secs
     setTimeout(() => {
       warnMessage.then(msg => msg.delete())
