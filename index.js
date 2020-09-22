@@ -54,10 +54,10 @@ mybot.on('message', function (message) {
   }
 
   // console.log(message.guild.name, ' - ', message.author.username, '(', message.channel.name, ')', ': ', message.content)
-  if (message.channel.name === 'your-presets' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0) {
+  if (message.channel.name === 'your-presets' && message.author.username !== 'Chefkoch') {
     bwpresets(message)
   }
-  if (message.channel.name === 'your-clips' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) > 0) {
+  if (message.channel.name === 'your-clips' && message.author.username !== 'Chefkoch') {
     bwclips(message)
   }
 })
