@@ -82,7 +82,10 @@ module.exports = (message) => {
         // delete the messages after 20secs
         setTimeout(() => {
           warnMessage.then(msg => msg.delete())
-          message.delete().then(msg => console.log('message deleted!'))
+          message
+            .delete()
+            .then(msg => console.log('message deleted!'))
+            .catch(msg => console.log('-> deletion failed (permissions?)'))
         }, timeoutMessages)
       }
     })
@@ -91,7 +94,10 @@ module.exports = (message) => {
     // delete the messages after 20secs
     setTimeout(() => {
       warnMessage.then(msg => msg.delete())
-      message.delete().then(msg => console.log('message deleted!'))
+      message
+        .delete()
+        .then(msg => console.log('message deleted!'))
+        .catch(msg => console.log('-> deletion failed (permissions?)'))
     }, timeoutMessages)
   }
 }
