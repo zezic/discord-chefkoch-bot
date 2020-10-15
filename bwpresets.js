@@ -20,7 +20,6 @@ const download = (url, dest, cb) => {
 module.exports = (message) => {
   if (message.attachments && _.size(message.attachments) > 0) {
     message.attachments.tap(attachment => {
-      console.log('### ', attachment.filename)
       // has the file a bwpreset in the filename?
       if (attachment.filename.match(/\.bwpreset/i)) {
         // get file and send it to the repo
