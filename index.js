@@ -22,7 +22,7 @@ mybot.on('messageReactionAdd', async (MessageReaction) => {
   if (MessageReaction.message.channel.name === 'role-assignements') {
     const roleName = MessageReaction.message.content.split(' - ')[0]
     const role = MessageReaction.message.guild.roles.cache.find(r => r.name === roleName)
-    const user = MessageReaction.users.cache.first()
+    const user = MessageReaction.users.cache.last()
     const member = MessageReaction.message.guild.member(user)
 
     if (role) {
