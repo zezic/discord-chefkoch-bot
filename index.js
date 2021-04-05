@@ -13,7 +13,7 @@ mybot.on('ready', function (data) {
 })
 
 // grant roles for user, when adding a reaction to a post
-mybot.on('messageReactionAdd', async (MessageReaction) => {
+mybot.on('messageReactionAdd', async (MessageReaction, user) => {
   if (MessageReaction.partial) await MessageReaction.fetch()
   if (MessageReaction.message.partial) await MessageReaction.message.fetch()
   if (MessageReaction.message.guild.partial) await MessageReaction.message.guild.fetch()
@@ -22,7 +22,6 @@ mybot.on('messageReactionAdd', async (MessageReaction) => {
   if (MessageReaction.message.channel.name === 'role-assignements') {
     const roleName = MessageReaction.message.content.split(' - ')[0]
     const role = MessageReaction.message.guild.roles.cache.find(r => r.name === roleName)
-    const user = MessageReaction.users.cache.last()
     const member = MessageReaction.message.guild.member(user)
 
     if (role) {
