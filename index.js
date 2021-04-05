@@ -1,5 +1,5 @@
 var Discord = require('discord.js')
-var mybot = new Discord.Client()
+var mybot = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD'] })
 const bwpresets = require('./bwpresets.js')
 const bwclips = require('./bwclips.js')
 const bangBwp = require('./bang-bwp.js')
@@ -12,10 +12,29 @@ mybot.on('ready', function (data) {
   // channel.sendMessage('Guten Tag!')
 })
 
-// reactions
-mybot.on('messageReactionAdd', (MessageReaction) => {
-  if (MessageReaction.message.channel.name === 'olisar') {
-    MessageReaction.message.reply(`emoji added ${MessageReaction.emoji.name} - ${MessageReaction.emoji.id} - ${MessageReaction.emoji.identifier}`)
+// grant roles for user, when adding a reaction to a post
+mybot.on('messageReactionAdd', async (MessageReaction) => {
+  if (MessageReaction.partial) await MessageReaction.fetch()
+  if (MessageReaction.message.partial) await MessageReaction.message.fetch()
+  if (MessageReaction.message.guild.partial) await MessageReaction.message.guild.fetch()
+  await MessageReaction.users.fetch()
+
+  if (MessageReaction.message.channel.name === 'role-assignements') {
+    const roleName = MessageReaction.message.content.split(' - ')[0]
+    const role = MessageReaction.message.guild.roles.cache.find(r => r.name === roleName)
+    const user = MessageReaction.users.cache.first()
+    const member = MessageReaction.message.guild.member(user)
+
+    if (role) {
+    // add role to user
+      member.roles.add(role).then((data) => {
+        console.log(user.username, ' added role of ', role.name)
+      }).catch((err) => {
+        console.log('no role could be added for ', user.username, ' we got error: ', err)
+      })
+    } else {
+      console.log('no role found with the name of: ', roleName)
+    }
   }
 })
 
