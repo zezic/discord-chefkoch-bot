@@ -18,17 +18,17 @@ const download = (url, dest, cb) => {
 }
 
 module.exports = (message) => {
-  if (message.attachments && _.size(message.attachments) > 0) {
-    message.attachments.tap(attachment => {
+  if (message.attachments) {
+    message.attachments.each(attachment => {
       // has the file a bwpreset in the filename?
-      if (attachment.filename.match(/\.bwpreset/i)) {
+      if (attachment.name.match(/\.bwpreset/i)) {
         // get file and send it to the repo
         Request.get({ encoding: null, url: attachment.url }, async (error, response, body) => {
           if (!error) {
             const buffer = Buffer.from(body, 'binary').toString('base64')
 
             // const data = 'data:' + response.headers['content-type'] + ';base64,' + buffer
-            commitGit('bitwig-community-presets/contents/discord-presets/' + message.author.id + '/' + attachment.filename, message.content, buffer)
+            commitGit('bitwig-community-presets/contents/discord-presets/' + message.author.id + '/' + attachment.name, message.content, buffer)
 
             // get the discord avatar url
             const imageURL = message.author.avatarURL
@@ -40,8 +40,8 @@ module.exports = (message) => {
             const doc = {
               added: new Date().toISOString(),
               desc: message.content,
-              download: 'https://github.com/polarity/bitwig-community-presets/raw/master/discord-presets/' + message.author.id + '/' + attachment.filename,
-              name: attachment.filename,
+              download: 'https://github.com/polarity/bitwig-community-presets/raw/master/discord-presets/' + message.author.id + '/' + attachment.name,
+              name: attachment.name,
               type: 'bwpreset',
               user: {
                 firebaseUrl: imageFirebaseURL,
@@ -66,7 +66,7 @@ module.exports = (message) => {
             fs.mkdirSync(downloadPath)
           }
           // download to disk
-          download(attachment.url, path.join(downloadPath, attachment.filename))
+          download(attachment.url, path.join(downloadPath, attachment.name))
         }
 
         const thxMessage = message.reply(messageThxTxt)
