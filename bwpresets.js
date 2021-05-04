@@ -1,7 +1,7 @@
 var Request = require('request')
 const fs = require('fs')
 const path = require('path')
-var _ = require('lodash')
+// var _ = require('lodash')
 const commitGit = require('./github')
 
 const saveToFirebase = require('./firebase').save
