@@ -31,7 +31,7 @@ module.exports = (message) => {
             commitGit('bitwig-community-presets/contents/discord-presets/' + message.author.id + '/' + attachment.name, message.content, buffer)
 
             // get the discord avatar url
-            const imageURL = message.author.avatarURL
+            const imageURL = message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }) || ''
 
             // download the discord avatar and add it to the firestore, return the new firestor url
             const imageFirebaseURL = await storeImage(message.author.id, message.author.username, imageURL)
