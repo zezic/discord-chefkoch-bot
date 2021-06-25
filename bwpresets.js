@@ -18,7 +18,7 @@ const download = (url, dest, cb) => {
 }
 
 module.exports = (message) => {
-  if (message.attachments) {
+  if (message.attachments && _.size(message.attachments) > 0) {
     message.attachments.each(attachment => {
       // has the file a bwpreset in the filename?
       if (attachment.name.match(/\.bwpreset/i)) {
