@@ -37,6 +37,31 @@ mybot.on('messageReactionAdd', async (MessageReaction, user) => {
   }
 })
 
+// remove roles for user, when removing a reaction to a post
+mybot.on('messageReactionRemove', async (MessageReaction, user) => {
+  if (MessageReaction.partial) await MessageReaction.fetch()
+  if (MessageReaction.message.partial) await MessageReaction.message.fetch()
+  if (MessageReaction.message.guild.partial) await MessageReaction.message.guild.fetch()
+  await MessageReaction.users.fetch()
+
+  if (MessageReaction.message.channel.name === 'role-assignements') {
+    const roleName = MessageReaction.message.content.split(' - ')[0]
+    const role = MessageReaction.message.guild.roles.cache.find(r => r.name === roleName)
+    const member = MessageReaction.message.guild.member(user)
+
+    if (role) {
+    // remove role from user
+      member.roles.remove(role).then((data) => {
+        console.log(user.username, ' removed role of ', role.name)
+      }).catch((err) => {
+        console.log('no role could be removed for ', user.username, ' we got error: ', err)
+      })
+    } else {
+      console.log('no role found with the name of: ', roleName)
+    }
+  }
+})
+
 // act on message
 mybot.on('message', function (message) {
   // check for bangs in your presets channel
