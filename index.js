@@ -68,17 +68,21 @@ mybot.on('message', function (message) {
   if (message.channel.name === 'your-presets' && message.content.match(/!bwp:([\w-.]*.bwpreset)/i)) {
     bangBwp(message)
   }
+  // don't react to self-produced messages
+  if (message.author.username == 'Chefkoch') {
+    return
+  }
   // your presets
-  if (message.channel.name === 'your-presets' && message.author.username !== 'Chefkoch') {
+  if (message.channel.name === 'your-presets') {
     bwpresets(message)
   }
   // your presets
-  if (message.channel.name === 'olisar' && message.author.username !== 'Chefkoch') {
+  if (message.channel.name === 'olisar') {
     console.log('message ', message)
     bwpresets(message)
   }
 
-  if (message.channel.name === 'your-releases' && message.author.username !== 'Chefkoch' && message.attachments && (_.size(message.attachments) > 1 || !message.content.includes('http') || !message.content.includes('bandcamp'))) {
+  if (message.channel.name === 'your-releases' && message.attachments && (_.size(message.attachments) > 1 || !message.content.includes('http') || !message.content.includes('bandcamp'))) {
     const warnMessage = message.reply('In this channel are only bandcamp links allowed. So post your bandcamp release and if you want to post feedback to other tracks, please use #your-tunes-chat - message will be deleted soon!')
     // delete the messages after 20secs
     setTimeout(() => {
@@ -87,7 +91,7 @@ mybot.on('message', function (message) {
     }, timeoutMessages)
   }
 
-  if (message.channel.name === 'your-tunes' && message.author.username !== 'Chefkoch' && message.attachments && _.size(message.attachments) < 1 && !message.content.includes('http')) {
+  if (message.channel.name === 'your-tunes' && message.attachments && _.size(message.attachments) < 1 && !message.content.includes('http')) {
     const warnMessage = message.reply('if you want to post feedback, please use #your-tunes-chat - message will be deleted soon!')
     // delete the messages after 20secs
     setTimeout(() => {
@@ -96,7 +100,7 @@ mybot.on('message', function (message) {
     }, timeoutMessages)
   }
 
-  if (message.channel.name === 'your-tunes-chat' && message.author.username !== 'Chefkoch' && ((message.attachments && _.size(message.attachments) > 0) || message.content.includes('http'))) {
+  if (message.channel.name === 'your-tunes-chat' && ((message.attachments && _.size(message.attachments) > 0) || message.content.includes('http'))) {
     const warnMessage = message.reply('if you want to post a track, please use #your-tunes - message will be deleted soon!')
     // delete the messages after 20secs
     setTimeout(() => {
@@ -106,10 +110,10 @@ mybot.on('message', function (message) {
   }
 
   // console.log(message.guild.name, ' - ', message.author.username, '(', message.channel.name, ')', ': ', message.content)
-  if (message.channel.name === 'your-presets' && message.author.username !== 'Chefkoch') {
+  if (message.channel.name === 'your-presets') {
     bwpresets(message)
   }
-  if (message.channel.name === 'your-clips' && message.author.username !== 'Chefkoch') {
+  if (message.channel.name === 'your-clips') {
     bwclips(message)
   }
 })
